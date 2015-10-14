@@ -426,7 +426,7 @@ left_prompt_segment() {
   [[ -n $3 ]] && fg="%F{$3}" || fg="%f"
   if [[ $CURRENT_BG != 'NONE' ]] && [[ "$2" != "$CURRENT_BG" ]]; then
     # Middle segment
-    echo -n "%{$bg%F{$CURRENT_BG}%}$(print_icon 'LEFT_SEGMENT_SEPARATOR')%{$fg%} "
+    echo -n "%{$bg%F{$CURRENT_BG}%}$(print_icon 'LEFT_SEGMENT_SEPARATOR')%{$fg%}"
   elif [[ "$CURRENT_BG" == "$2" ]]; then
     # Middle segment with same color as previous segment
     # We take the current foreground color as color for our
@@ -434,13 +434,13 @@ left_prompt_segment() {
     # enough contrast.
     local complement
     [[ -n $3 ]] && complement=$3 || complement=$DEFAULT_COLOR
-    echo -n "%{$bg%F{$complement}%}$(print_icon 'LEFT_SUBSEGMENT_SEPARATOR')%{$fg%} "
+    echo -n "%{$bg%F{$complement}%}$(print_icon 'LEFT_SUBSEGMENT_SEPARATOR')%{$fg%}"
   else
     # First segment
-    echo -n "%{$bg%}%{$fg%} "
+    echo -n "%{$bg%}%{$fg%}"
   fi
   CURRENT_BG=$2
-  [[ -n $4 ]] && echo -n "$4 "
+  [[ -n $4 ]] && echo -n "$4"
 }
 
 # End the left prompt, closes the final segment.
@@ -853,10 +853,10 @@ prompt_time() {
 prompt_vi_mode() {
   case ${KEYMAP} in
     main|viins)
-      "$1_prompt_segment" "$0_INSERT" "$DEFAULT_COLOR" "blue" "INSERT"
+      "$1_prompt_segment" "$0_INSERT" "$DEFAULT_COLOR" "blue" "I"
     ;;
     vicmd)
-      "$1_prompt_segment" "$0_NORMAL" "$DEFAULT_COLOR" "default" "NORMAL"
+      "$1_prompt_segment" "$0_NORMAL" "$DEFAULT_COLOR" "default" "N"
     ;;
   esac
 }
