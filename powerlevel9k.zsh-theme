@@ -957,4 +957,41 @@ powerlevel9k_init() {
   zle -N zle-keymap-select
 }
 
+function zle-line-init {
+  powerlevel9k_prepare_prompts
+  zle reset-prompt
+}
+
+function zle-keymap-select {
+  powerlevel9k_prepare_prompts
+  zle reset-prompt
+}
+
+powerlevel9k_init() {
+  # Display a warning if the terminal does not support 256 colors
+  local term_colors
+  term_colors=$(tput colors)
+  if (( term_colors < 256 )); then
+    print -P "%F{red}WARNING!%f Your terminal supports less than 256 colors!"
+    print "You should set TERM=xterm-256colors in your ~/.zshrc"
+  fi
+
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  setopt PROMPT_CR PROMPT_PERCENT PROMPT_SUBST MULTIBYTE
+
+  # initialize colors
+  autoload -U colors && colors
+
+  # initialize VCS
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd vcs_info
+
+  # prepare prompts
+  add-zsh-hook precmd powerlevel9k_prepare_prompts
+
+  zle -N zle-line-init
+  zle -N zle-keymap-select
+}
+
 powerlevel9k_init "$@"
